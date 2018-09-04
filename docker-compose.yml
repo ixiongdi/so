@@ -1,0 +1,17 @@
+version: "3"
+services:
+  shadowsocks:
+    image: mritd/shadowsocks
+    environment:
+      SS_CONFIG: "-s 0.0.0.0 -p 6443 -m aes-128-gcm -k qw12 --fast-open"
+      KCP_FLAG: 'true'
+      KCP_CONFIG: "-t 127.0.0.1:6443 -l :6500 -mode fast2"
+    ports:
+      - "6443:6443"
+      - "6500:6500/udp"
+  v2ray:
+    image: v2ray/official
+    volumes: 
+      - ./conf.d/v2ray-server.json:/etc/v2ray/config.json
+    ports:
+      - "10086:10086"

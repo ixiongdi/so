@@ -1,0 +1,19 @@
+version: "3"
+services:
+  shadowsocks:
+    image: mritd/shadowsocks
+    environment:
+      SS_MODULE: 'ss-local'
+      SS_CONFIG: '-s 127.0.0.1 -p 6500 -b 0.0.0.0 -l 1080 -m chacha20 -k qw12 --fast-open'
+      KCP_FLAG: 'true'
+      KCP_MODULE: 'kcpclient'
+      KCP_CONFIG: '-r lolcahost:6500 -l :6500 -mode fast2'
+    ports:
+      - "1080:1080"
+      - "6500:6500/udp"
+  v2ray:
+    image: v2ray/official
+    volumes:
+      - ../conf.d/v2ray-client.json:/etc/v2ray/config.json
+    ports:
+      - "1920:1920"
